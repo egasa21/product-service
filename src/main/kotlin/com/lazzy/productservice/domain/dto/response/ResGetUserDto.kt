@@ -1,5 +1,7 @@
 package com.lazzy.productservice.domain.dto.response
 
+import jakarta.validation.constraints.NotBlank
+
 data class ResGetUserDto(
     val id: Int,
     val email: String,

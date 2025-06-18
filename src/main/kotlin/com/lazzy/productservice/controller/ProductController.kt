@@ -1,9 +1,9 @@
 package com.lazzy.productservice.controller
 
-import com.lazzy.productservice.domain.dto.request.ReqRegisterDto
+import com.lazzy.productservice.domain.dto.request.ReqCreateProductDto
 import com.lazzy.productservice.domain.dto.response.BaseResponse
-import com.lazzy.productservice.domain.dto.response.ResGetUserDto
-import com.lazzy.productservice.service.MasterUserService
+import com.lazzy.productservice.domain.dto.response.ResProductDto
+import com.lazzy.productservice.service.MasterProductService
 import jakarta.validation.Valid
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
@@ -15,37 +15,38 @@ import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
-@RequestMapping("/v1/user")
-class UserController(
-    private val masterUserService: MasterUserService
+@RequestMapping("/v1/products")
+class ProductController(
+    private val productService: MasterProductService,
+    private val masterProductService: MasterProductService
 ) {
-    @GetMapping("/active")
-    fun getAllActiveUsers(): ResponseEntity<BaseResponse<List<ResGetUserDto>>> {
+    @GetMapping()
+    fun getAllProducts(): ResponseEntity<BaseResponse<List<ResProductDto>>?> {
         return ResponseEntity.ok(
             BaseResponse(
-                data = masterUserService.   findAllActiveUsers()
+                data = productService.getAllProducts()
             )
         )
     }
 
     @GetMapping("/{id}")
-    fun getUserById(
+    fun getProductById(
         @PathVariable id: Int
-    ): ResponseEntity<BaseResponse<ResGetUserDto>> {
+    ): ResponseEntity<BaseResponse<ResProductDto?>> {
         return ResponseEntity.ok(
             BaseResponse(
-                data = masterUserService.findUserById(id)
+                data = productService.getProductById(id)
             )
         )
     }
 
-    @PostMapping("/register")
-    fun registerUser(
-        @Valid @RequestBody req: ReqRegisterDto
-    ): ResponseEntity<BaseResponse<ResGetUserDto>> {
+    @PostMapping()
+    fun createProduct(
+        @Valid @RequestBody req: ReqCreateProductDto
+    ): ResponseEntity<BaseResponse<ResProductDto>> {
         return ResponseEntity(
             BaseResponse(
-                data = masterUserService.register(req)
+                data = masterProductService.createProduct(req)
             ),
             HttpStatus.CREATED
         )
