@@ -11,7 +11,7 @@ import java.sql.Timestamp
 data class MasterProductEntity(
     @Id
     @GeneratedValue(
-        strategy = GenerationType.SEQUENCE,
+        strategy = GenerationType.AUTO,
         generator = "mst_products_id_seq"
     )
     @SequenceGenerator(

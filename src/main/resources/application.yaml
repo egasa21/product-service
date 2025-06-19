@@ -1,0 +1,30 @@
+spring:
+  application:
+    name: product-service
+
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/product_service_db
+    username: lazzy
+    password: matatahakuna25
+  jpa:
+    properties:
+      hibernate:
+        format_sql: true
+        ddl-auto: none
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+
+server:
+  port: 8082
+  servlet:
+    context-path: /product-service
+
+
+
+jwt:
+  secret-key: ms6DQhhGiXLBMSoTcgxrNjgjPu07Ci7J
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/

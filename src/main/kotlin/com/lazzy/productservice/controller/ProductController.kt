@@ -1,9 +1,11 @@
 package com.lazzy.productservice.controller
 
+import com.lazzy.productservice.domain.Constant
 import com.lazzy.productservice.domain.dto.request.ReqCreateProductDto
 import com.lazzy.productservice.domain.dto.response.BaseResponse
 import com.lazzy.productservice.domain.dto.response.ResProductDto
 import com.lazzy.productservice.service.MasterProductService
+import jakarta.servlet.http.HttpServletRequest
 import jakarta.validation.Valid
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
@@ -18,7 +20,8 @@ import org.springframework.web.bind.annotation.RestController
 @RequestMapping("/v1/products")
 class ProductController(
     private val productService: MasterProductService,
-    private val masterProductService: MasterProductService
+    private val masterProductService: MasterProductService,
+    private val httpServletRequest: HttpServletRequest
 ) {
     @GetMapping()
     fun getAllProducts(): ResponseEntity<BaseResponse<List<ResProductDto>>?> {
@@ -44,9 +47,10 @@ class ProductController(
     fun createProduct(
         @Valid @RequestBody req: ReqCreateProductDto
     ): ResponseEntity<BaseResponse<ResProductDto>> {
+        val performerId = httpServletRequest.getHeader(Constant.HEADER_USER_ID).toInt()
         return ResponseEntity(
             BaseResponse(
-                data = masterProductService.createProduct(req)
+                data = masterProductService.createProduct(req, performerId)
             ),
             HttpStatus.CREATED
         )
